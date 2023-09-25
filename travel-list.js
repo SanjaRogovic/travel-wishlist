@@ -1,4 +1,4 @@
-const cities = [
+const countries = [
     {
         id: 1,
         name: "Singapore",
@@ -36,4 +36,4 @@ const cities = [
 
 ]
 
-module.exports = cities;
+module.exports = countries;
