@@ -11,28 +11,50 @@ app.get("/", (req, res) => {
 
 app.get("/countries", ((req, res) => {
 //    console.log(req.params)
-    res.send (
-        `<h2>My travel wishlist</h2>
-        <h3> ${req.params.countries}</h3>
-         ${travel.map((index) => `<p>${index.name}</p>`)}`
-    )
+    res.json(travel)
 }))
 
 app.post("/countries", (req,res) => {
     const country = req.body
     console.log(country)
-    res.send(
-       `name: ${country.name}`
-    )
+
+    travel.push(country)
+    
+    res.json(country)
 })
 
-// app.get("/code", (req,res) => {
-//     const code = (req.params.countries.alpha2Code, req.params.countries.alpha3Code)
-//     res.send(
-//         `<h2>Country ${code}</h2>
-//         ${travel.map((index) => `<p>${index.name}</p>`)}`
-//     )
-// })
+
+app.get("/countries/:code", (req, res) => {
+const singleCountry = req.params.code
+
+const countryCode = travel.find(country => country.alpha2Code === singleCountry || country.alpha3Code === singleCountry)
+console.log(singleCountry)
+
+if(!countryCode){
+    return res.status(404).send("Country not found")
+}
+  res.json(countryCode);
+});
+
+app.put("/countries/:code", (req, res) => {
+    const country = req.body
+    console.log(country)
+    res.json(country)
+})
+
+
+app.delete("/countries/:code", (req, res) => {
+    const singleCountry = req.params.code
+
+    const countryCode = travel.find(country => country.alpha2Code === singleCountry || country.alpha3Code === singleCountry)
+    // console.log(singleCountry)
+
+    res.json(countryCode);
+    
+    if(!countryCode){
+        return res.status(404).send("Country not found")
+    }   
+})
 
 
 app.listen(port, () => {
